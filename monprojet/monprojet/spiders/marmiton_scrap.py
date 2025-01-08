@@ -42,6 +42,20 @@ class MarmitonSpider(scrapy.Spider):
         note = response.css("span.recipe-header__rating-text::text").get()
         temps= response.css(".recipe-primary__item .icon-timer1 + span::text").get()
         prix = response.css(".recipe-primary__item .icon-price + span::text").get()
+        #ingredients = [ingredient.strip() for ingredient in response.css(".ingredient-name::text").extract()]
+        ingredients = []
+
+        # Parcourir tous les éléments de "card-ingredient-content"
+        for ingredient_div in response.css(".card-ingredient-content"):
+            # Extraire tout le texte à l'intérieur de la case
+            ingredient_text = ingredient_div.css("span::text").getall()
+    
+            # Nettoyer les espaces supplémentaires et combiner le texte si nécessaire
+            ingredient_text = " ".join([text.strip() for text in ingredient_text if text.strip()])
+
+            # Ajouter l'ingrédient à la liste
+            ingredients.append(ingredient_text)
+        
 
         yield {
             "lien": lien,
@@ -49,10 +63,7 @@ class MarmitonSpider(scrapy.Spider):
             "difficulte": difficulte,
             "note": note,
             "temps": temps,
-            "prix": prix
+            "prix": prix,
+            "ingredients": ingredients 
 
         }
-
-
-
-

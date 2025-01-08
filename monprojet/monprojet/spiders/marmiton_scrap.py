@@ -39,11 +39,18 @@ class MarmitonSpider(scrapy.Spider):
         titre = response.css("div.main-title h1::text").get()
         difficulte = response.css(".recipe-primary__item .icon-difficulty + span::text").get()
         lien = response.meta['lien']
+        note = response.css("span.recipe-header__rating-text::text").get()
+        temps= response.css(".recipe-primary__item .icon-timer1 + span::text").get()
+        prix = response.css(".recipe-primary__item .icon-price + span::text").get()
 
         yield {
             "lien": lien,
             "titre": titre,
-            "difficulte": difficulte
+            "difficulte": difficulte,
+            "note": note,
+            "temps": temps,
+            "prix": prix
+
         }
 
 

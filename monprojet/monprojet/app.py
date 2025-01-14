@@ -37,10 +37,9 @@ def mongo_action():
 
 
 
-# Route pour la page de recherche
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    query = request.form.get('query', '')
+    query = request.form.get('query', '') if request.method == 'POST' else request.args.get('query', '')
     page = int(request.args.get('page', 1))
     per_page = 5
     results = []
@@ -49,7 +48,8 @@ def search():
         with open(JSON_PATH, 'r', encoding='utf-8') as file:
             recettes_data = json.load(file)
         
-        filtered_results = [recette for recette in recettes_data if query.lower() in recette.get('nom', '').lower()]
+        # Filtrer par 'titre' au lieu de 'nom'
+        filtered_results = [recette for recette in recettes_data if query.lower() in recette.get('titre', '').lower()]
         total_results = len(filtered_results)
 
         # Pagination logic
@@ -60,9 +60,8 @@ def search():
         total_pages = ceil(total_results / per_page)
 
         return render_template('search.html', query=query, results=results, page=page, total_pages=total_pages)
-    
-    return render_template('search.html', query=query, results=results, page=1, total_pages=1)
 
+    return render_template('search.html', query=query, results=results, page=1, total_pages=1)
 
 
 if __name__ == '__main__':

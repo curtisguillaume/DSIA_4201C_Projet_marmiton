@@ -4,28 +4,19 @@
 
 {% block content %}
 <h1 class="text-center">Recherche de Recettes</h1>
-
-<!-- Formulaire avec méthode GET -->
-<form action="/search" method="get" class="form-inline justify-content-center">
+<form action="/search" method="post" class="form-inline justify-content-center">
     <input type="text" name="query" class="form-control mr-2" placeholder="Rechercher une recette" value="{{ query }}">
     <button type="submit" class="btn btn-primary">Rechercher</button>
 </form>
 
 <h2 class="mt-4 text-center">Résultats de la recherche</h2>
 <ul class="list-group">
-    {% for recette in results %}
-        <li class="list-group-item">{{ recette['titre'] }}</li>
+    {% if results %}
+        {% for recette in results %}
+            <li class="list-group-item">{{ recette['titre'] }}</li>
+        {% endfor %}
     {% else %}
         <p class="text-center">Aucun résultat trouvé.</p>
-    {% endfor %}
+    {% endif %}
 </ul>
-
-<div class="mt-4 text-center">
-    {% if page > 1 %}
-        <a href="/search?query={{ query }}&page={{ page - 1 }}" class="btn btn-secondary">Page précédente</a>
-    {% endif %}
-    {% if page < total_pages %}
-        <a href="/search?query={{ query }}&page={{ page + 1 }}" class="btn btn-secondary">Page suivante</a>
-    {% endif %}
-</div>
 {% endblock %}

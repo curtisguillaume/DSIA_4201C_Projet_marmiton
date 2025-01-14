@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify
-import pymongo
 import json
 import os
 from math import ceil  
@@ -15,11 +14,6 @@ app = Flask(__name__)
 # Chemin absolu vers le fichier JSON
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 JSON_PATH = os.path.join(BASE_DIR, 'data', 'recettes2.json')
-
-# Connexion à MongoDB
-client = pymongo.MongoClient("mongodb://localhost:27017/")  # URL de votre MongoDB Docker
-db = client["marmiton_db"]  # Remplacez par le nom de votre base de données
-collection = db["recettes"]  # Remplacez par le nom de votre collection
 
 # Route pour la page d'accueil
 @app.route('/')
@@ -79,38 +73,12 @@ def mongo_action():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    query = request.form.get('query', '')  # Récupérer le terme de recherche
-    page = int(request.args.get('page', 1))  # Page actuelle (par défaut page 1)
-    per_page = 5  # Nombre de résultats par page
-
+    query = request.form.get('query', '') if request.method == 'POST' else request.args.get('query', '')
+    page = int(request.args.get('page', 1))
+    per_page = 5
     results = []
-    total_pages = 1
 
     if query:
-
-        # Affichage pour vérifier la requête
-        print(f"Requête de recherche : {query}")
-
-        # Requête MongoDB avec expression régulière (insensible à la casse)
-        filtered_results = collection.find(
-            { "titre": { "$regex": query, "$options": "i" } }
-        )
-        
-        # Vérification du nombre de résultats
-        filtered_results_list = list(filtered_results)
-        print(f"Nombre de résultats trouvés : {len(filtered_results_list)}")
-        
-        # Nombre total de résultats
-        total_results = len(filtered_results_list)
-
-        # Pagination : Découper les résultats pour afficher ceux de la page actuelle
-        start = (page - 1) * per_page
-        end = start + per_page
-        results = filtered_results_list[start:end]
-
-        # Calculer le nombre total de pages
-        total_pages = (total_results // per_page) + (1 if total_results % per_page else 0)
-
         # Construire une requête MongoDB pour chercher dans le champ 'titre'
         search_query = {"titre": {"$regex": query, "$options": "i"}}
 
@@ -131,7 +99,6 @@ def search():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 
 
 

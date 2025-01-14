@@ -3,6 +3,12 @@ import pymongo
 import json
 import os
 from math import ceil  
+from pymongo import MongoClient
+
+# Configurer la connexion à MongoDB
+client = MongoClient("mongodb://localhost:27017/")
+db = client["marmiton_db"]
+collection = db["collection_recette"]
 
 app = Flask(__name__)
 
@@ -43,6 +49,34 @@ def mongo_action():
 
 
 
+# @app.route('/search', methods=['GET', 'POST'])
+# def search():
+#     query = request.form.get('query', '') if request.method == 'POST' else request.args.get('query', '')
+#     page = int(request.args.get('page', 1))
+#     per_page = 5
+#     results = []
+
+#     if query:
+#         with open(JSON_PATH, 'r', encoding='utf-8') as file:
+#             recettes_data = json.load(file)
+        
+#         # Filtrer par 'titre' au lieu de 'nom'
+#         filtered_results = [recette for recette in recettes_data if query.lower() in recette.get('titre', '').lower()]
+#         total_results = len(filtered_results)
+
+#         # Pagination logic
+#         start = (page - 1) * per_page
+#         end = start + per_page
+#         results = filtered_results[start:end]
+
+#         total_pages = ceil(total_results / per_page)
+
+#         return render_template('search.html', query=query, results=results, page=page, total_pages=total_pages)
+
+#     return render_template('search.html', query=query, results=results, page=1, total_pages=1)
+
+
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     query = request.form.get('query', '')  # Récupérer le terme de recherche
@@ -53,6 +87,7 @@ def search():
     total_pages = 1
 
     if query:
+
         # Affichage pour vérifier la requête
         print(f"Requête de recherche : {query}")
 
@@ -75,6 +110,23 @@ def search():
 
         # Calculer le nombre total de pages
         total_pages = (total_results // per_page) + (1 if total_results % per_page else 0)
+
+        # Construire une requête MongoDB pour chercher dans le champ 'titre'
+        search_query = {"titre": {"$regex": query, "$options": "i"}}
+
+        # Récupérer les résultats paginés
+        total_results = collection.count_documents(search_query)
+        cursor = collection.find(search_query).skip((page - 1) * per_page).limit(per_page)
+        
+        # Transformer les résultats en une liste de dictionnaires
+        results = list(cursor)
+
+        # Calculer le nombre total de pages
+        total_pages = ceil(total_results / per_page)
+
+        return render_template('search.html', query=query, results=results, page=page, total_pages=total_pages)
+
+    return render_template('search.html', query=query, results=results, page=1, total_pages=1)
 
     return render_template('search.html', query=query, results=results, page=page, total_pages=total_pages)
 

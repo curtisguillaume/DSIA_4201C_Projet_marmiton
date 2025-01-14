@@ -1,16 +1,21 @@
 import pymongo
 import json
+import os
 
-# Connexion à MongoDB
-client = pymongo.MongoClient("mongodb://localhost:27017/")  # Remplacez par l'URI de votre MongoDB si nécessaire
-db = client["marmiton_db"]  # Remplacez par le nom de votre base de données
-collection = db["collection_recette"]  # Remplacez par le nom de votre collection
+def insert_data():
+    # Connexion à MongoDB
+    client = pymongo.MongoClient("mongodb://localhost:27017/")  # URI de MongoDB
+    db = client["marmiton_db"]
+    collection = db["collection_recette"]
 
-# Chargement du fichier JSON avec encodage UTF-8
-with open('recettes2.json', encoding='utf-8') as file:
-    data = json.load(file)  # Charge le contenu du fichier JSON
+    # Chemin absolu vers le fichier JSON
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Chemin du fichier actuel
+    JSON_PATH = os.path.join(BASE_DIR, 'recettes2.json')  # Chemin absolu vers recettes2.json
 
-# Insertion des documents JSON dans la collection
-collection.insert_many(data)
+    # Chargement du fichier JSON
+    with open(JSON_PATH, 'r', encoding='utf-8') as file:
+        data = json.load(file)
 
-print("Documents insérés avec succès!")
+    # Insertion des documents JSON dans la collection
+    collection.insert_many(data)
+    print("Documents insérés avec succès!")

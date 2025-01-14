@@ -84,4 +84,3 @@ class MarmitonSpider(scrapy.Spider):
 
         }
 
-        #test pull le coquin

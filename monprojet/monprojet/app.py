@@ -128,7 +128,6 @@ def search():
 
     return render_template('search.html', query=query, results=results, page=1, total_pages=1)
 
-    return render_template('search.html', query=query, results=results, page=page, total_pages=total_pages)
 
 if __name__ == '__main__':
     app.run(debug=True)

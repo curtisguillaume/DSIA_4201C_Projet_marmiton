@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche de Recettes</title>
+</head>
+<body>
+    <h1>Recherche de Recettes</h1>
+    <form method="POST" action="/">
+        <input type="text" name="query" placeholder="Cherchez une recette..." value="{{ query }}">
+        <button type="submit">Rechercher</button>
+    </form>
+
+    {% if recipes %}
+        <h2>Résultats de la recherche :</h2>
+        <ul>
+            {% for recipe in recipes %}
+                <li>
+                    <strong>{{ recipe['titre'] }}</strong><br>
+                    <a href="{{ recipe['lien'] }}" target="_blank">Voir la recette</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun résultat trouvé.</p>
+    {% endif %}
+</body>
+</html>

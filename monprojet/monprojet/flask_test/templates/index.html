@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recherche de recettes Marmiton</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .search-box { margin-bottom: 20px; }
+        input[type="text"] { width: 300px; padding: 8px; }
+        button { padding: 8px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        .result-item { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Rechercher une recette</h1>
+    
+    <div class="search-box">
+        <form method="POST">
+            <input type="text" name="search" placeholder="Entrez le nom d'une recette...">
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+
+    {% if results %}
+        <h2>Résultats de recherche :</h2>
+        {% for result in results %}
+            <div class="result-item">
+                <h3><a href="/recette/{{ result._id }}">{{ result._source.titre }}</a></h3>
+                <p>Note : {{ result._source.note }} | Difficulté : {{ result._source.difficulte }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

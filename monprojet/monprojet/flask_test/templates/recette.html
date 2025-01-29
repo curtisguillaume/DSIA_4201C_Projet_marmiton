@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ recette.titre }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .recette-details { margin-top: 20px; }
+        .section { margin-bottom: 25px; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        ul { list-style-type: none; padding-left: 0; }
+        li { margin-bottom: 5px; padding: 5px; background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>{{ recette.titre }}</h1>
+    <div class="recette-details">
+        <div class="section">
+            <p><strong>Note :</strong> {{ recette.note }}</p>
+            <p><strong>Temps de préparation :</strong> {{ recette.temps }}</p>
+            <p><strong>Prix :</strong> {{ recette.prix }}</p>
+        </div>
+
+        <div class="section">
+            <h2>Ingrédients</h2>
+            <ul>
+                {% for ingredient in recette.ingredients %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Étapes de préparation</h2>
+            <ol>
+                {% for etape in recette.etapes %}
+                    <li>{{ etape }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Ustensiles</h2>
+            <ul>
+                {% for ustensile in recette.ustenciles %}
+                    <li>{{ ustensile }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <a href="/">Retour à la recherche</a>
+    </div>
+</body>
+</html>

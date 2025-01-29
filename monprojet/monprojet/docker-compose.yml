@@ -1,0 +1,20 @@
+services:
+  elasticsearch:
+    image: elasticsearch:8.17.0
+    container_name: elastic-search # Nom EXACT du conteneur existant
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false # Désactive l'authentification
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: kibana:8.17.0
+    container_name: kibana # Nom EXACT du conteneur existant
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - xpack.security.enabled=false
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch

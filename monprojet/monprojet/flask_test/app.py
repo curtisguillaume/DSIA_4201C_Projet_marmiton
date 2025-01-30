@@ -8,15 +8,18 @@ INDEX_NAME = "recettes"
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        search_term = request.form['search']
-        body = {
+        search_term = request.form['search'] #recupere la valeur du champs de recherche
+        body = { #requete de recherche elastic search
             "query": {
                 "match": {
-                    "titre": search_term
+                    "titre": {
+                        "query": search_term,
+                        "fuzziness": "AUTO"
+            }
                 }
             }
         }
-        results = es.search(index=INDEX_NAME, body=body)
+        results = es.search(index=INDEX_NAME, body=body) #envoie de la requete
         return render_template('index.html', results=results['hits']['hits'])
     
     return render_template('index.html')

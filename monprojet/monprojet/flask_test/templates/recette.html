@@ -8,7 +8,7 @@
         .section { margin-bottom: 25px; }
         h2 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 5px; }
         ul { list-style-type: none; padding-left: 0; }
-        li { margin-bottom: 5px; padding: 5px; background: #f8f9fa; }
+        li { margin-bottom: 5px; padding: 5px; background: #ffffff; }
     </style>
 </head>
 <body>
@@ -30,6 +30,15 @@
         </div>
 
         <div class="section">
+            <h2>Ustensiles</h2>
+            <ul>
+                {% for ustensile in recette.ustenciles %}
+                    <li>{{ ustensile }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
             <h2>Étapes de préparation</h2>
             <ol>
                 {% for etape in recette.etapes %}
@@ -38,14 +47,7 @@
             </ol>
         </div>
 
-        <div class="section">
-            <h2>Ustensiles</h2>
-            <ul>
-                {% for ustensile in recette.ustenciles %}
-                    <li>{{ ustensile }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+        
 
         <a href="/">Retour à la recherche</a>
     </div>

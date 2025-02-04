@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request
 from elasticsearch import Elasticsearch
 
+import time
+
 app = Flask(__name__)
-es = Elasticsearch("http://localhost:9200")
+es = Elasticsearch("http://elasticsearch:9200/")
+while not es.ping():
+    print("Attente de la connexion à Elasticsearch...")
+    time.sleep(5)
+
+print("Connexion réussie à Elasticsearch!")
+
 INDEX_NAME = "recettes"
 
 @app.route('/', methods=['GET', 'POST'])

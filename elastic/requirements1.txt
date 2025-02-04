@@ -1,3 +1,0 @@
-elasticsearch==8.17.0
-flask
-elasticsearch

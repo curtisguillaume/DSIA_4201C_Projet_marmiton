@@ -1,0 +1,15 @@
+# Dockerfile.flask
+FROM python:3.9-slim
+
+# Définir le répertoire de travail sur /flask
+WORKDIR /flask
+
+# Copier le fichier requirements.txt et installer les dépendances
+COPY flask/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copier le contenu du dossier flask
+COPY flask/ .
+
+# Commande à exécuter
+CMD ["python", "app.py"]

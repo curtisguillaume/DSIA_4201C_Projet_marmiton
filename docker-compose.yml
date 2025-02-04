@@ -1,16 +1,18 @@
+version: '3.8'
+
 services:
   elasticsearch:
     image: elasticsearch:8.17.0
-    container_name: elastic-search_v2 # Nom EXACT du conteneur existant
+    container_name: elastic-search_v2
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=false # Désactive l'authentification
+      - xpack.security.enabled=false
     ports:
       - "9200:9200"
 
   kibana:
     image: kibana:8.17.0
-    container_name: kibana_v2 # Nom EXACT du conteneur existant
+    container_name: kibana_v2
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - xpack.security.enabled=false
@@ -18,3 +20,26 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+
+  elastic:
+    build:
+      context: .  # Le contexte est le dossier racine du projet
+      dockerfile: elastic/Dockerfile.elastic
+    container_name: elastic-loader
+    volumes:
+      - ./data:/elastic/data  # Monter le dossier data pour accéder à recettes2.json
+    depends_on:
+      - elasticsearch
+
+  flask:
+    build:
+      context: .  # Le contexte est le dossier racine du projet
+      dockerfile: flask/Dockerfile.flask
+    container_name: flask-appv2
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask/templates:/flask/templates  # Monter le dossier templates pour Flask
+    depends_on:
+      - elasticsearch
+      - elastic

@@ -1,0 +1,15 @@
+# Dockerfile.elastic
+FROM python:3.9-slim
+
+# Définir le répertoire de travail sur /elastic
+WORKDIR /elastic
+
+# Copier le fichier requirements.txt et installer les dépendances
+COPY elastic/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copier le contenu du dossier elastic
+COPY elastic/ .
+
+# Commande à exécuter
+CMD ["python", "elastic.py"]

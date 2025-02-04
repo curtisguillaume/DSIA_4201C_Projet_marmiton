@@ -3,7 +3,7 @@ import json
 import time
 
 # Connexion à Elasticsearch
-es_client = Elasticsearch("http://localhost:9200/")  # Utilise le nom du service Docker, pas localhost
+es_client = Elasticsearch("http://elasticsearch:9200/")  # Utilise le nom du service Docker, pas localhost
 
 # Attendre que le service Elasticsearch soit prêt
 while not es_client.ping():

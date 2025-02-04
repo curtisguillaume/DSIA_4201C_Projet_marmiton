@@ -1,13 +1,19 @@
 from elasticsearch import Elasticsearch, helpers
 import json
+import time
 
 # Connexion à Elasticsearch
-es_client = Elasticsearch("http://localhost:9200")
+es_client = Elasticsearch("http://localhost:9200/")  # Utilise le nom du service Docker, pas localhost
 
-es_client.ping()
+# Attendre que le service Elasticsearch soit prêt
+while not es_client.ping():
+    print("Attente de la connexion à Elasticsearch...")
+    time.sleep(5)
+
+print("Connexion réussie à Elasticsearch!")
 
 # Chemin vers le fichier JSON
-json_file_path = "D:/Moi/ESIEE/DSIA4201C/DSIAS1P2C/Projet/DSIA_4201C_Projet_marmiton/monprojet/monprojet/data/recettes2.json"
+json_file_path = "data/recettes2.json"
 
 
 # Charger le fichier JSON

@@ -6,7 +6,7 @@
 import scrapy
 
 
-class MonprojetItem(scrapy.Item):
+class Scrapy1Item(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass

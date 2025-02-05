@@ -1,6 +1,8 @@
 
 # Projet Web - Application de Recettes avec Elasticsearch
 
+Vladislav SENECHAL & Guillaume CURTIS
+
 ## Description du Projet
 
 Le projet consiste à créer une application web pour explorer des recettes en utilisant des données scrapées sur le site Marmiton. Ces données sont stockées dans un cluster Elasticsearch et sont affichées via une interface web construite avec Flask. L'application permet de rechercher des recettes en utilisant un moteur de recherche basé sur Elasticsearch, et de consulter les détails d'une recette au clic.

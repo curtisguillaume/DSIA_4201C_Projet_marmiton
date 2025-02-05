@@ -1,9 +1,4 @@
 
-# DSIA_4201C_Projet_Marmiton_scraper
-
-Aller a la racine du projet et executer "docker-compose up --build "
-aller à http://127.0.0.1:5000/ ou http://localhost:5000/ apres 1 minutes 
-
 # Projet Web - Application de Recettes avec Elasticsearch
 
 ## Description du Projet
@@ -21,21 +16,25 @@ Le projet consiste à créer une application web pour explorer des recettes en u
 
 ## Structure du projet
 
-. 
-├── app.py 
-├── docker-compose.yml 
-├── elastic 
-│ └── Dockerfile.elastic 
-├── flask 
-│ └── Dockerfile.flask 
-├── data/ 
-│ └── recettes2.json 
-├── scrapy_spider/ 
-│ └── marmiton_spider.py 
-├── templates/ 
-│ ├── index.html 
-│ └── recette.html 
-└── README.md
+.   
+├── docker-compose.yml   
+├── elastic   
+│ ├── Dockerfile.elastic  
+│ ├── requirements.txt
+│ └── elastic.py    
+├── flask   
+│ ├── Dockerfile.flask 
+│ ├── requirements.txt
+│ ├── templates/   
+│ │ ├── index.html    
+│ │ ├── recette.html   
+│ └── app.py     
+├── data/   
+│ ├── recettes2.json   
+│ └── mongo_marmiton.py    (pas utile sauf si vous preferez faire une bdd mongo_db)   
+├── scrapy1/scrapy1/spiders   
+│ └── marmiton_scrap.py   
+└── README.md  
 
 ## Détails des composants
 
@@ -86,7 +85,6 @@ Le fichier `app.py` contient l'application Flask qui gère les routes suivantes 
 ### Pré-requis
 
 - Docker et Docker Compose doivent être installés sur votre machine.
-- Le service Elasticsearch et Kibana doivent être disponibles via Docker.
 
 ### Lancer l'application
 
@@ -107,27 +105,8 @@ docker-compose up --build
 
 Cela va lancer les services Elasticsearch, Kibana, Flask et Elastic-loader dans des conteneurs Docker.
 
----
-
-### Scraper les données :
-
-Lancez le spider Scrapy pour récupérer les données de recettes depuis Marmiton et les stocker dans un fichier JSON.
-
-scrapy crawl marmit
-
-
----
-
-### Charger les données dans Elasticsearch :
-
-Une fois les données récupérées, elles doivent être insérées dans Elasticsearch.
-
-python elastic.py
-
-
----
 
 ### Accéder à l'application web :
-
-- L'application web sera disponible à l'adresse suivante : [http://localhost:5000](http://localhost:5000).
+- Attendre que tous les dockers soient bien installés et lancés
+- L'application web sera disponible à l'adresse suivante : [http://localhost:5000](http://localhost:5000).  ou http://127.0.0.1:5000/
 - Kibana sera accessible à l'adresse suivante pour visualiser et gérer les données : [http://localhost:5601](http://localhost:5601).

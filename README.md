@@ -95,8 +95,8 @@ Le fichier `app.py` contient l'application Flask qui gère les routes suivantes 
    Clonez le repository sur votre machine locale.
 
    ```bash
-   git clone <url_du_repository>
-   cd <dossier_du_repository>
+   git clone https://github.com/curtisguillaume/DSIA_4201C_Projet_marmiton
+   cd DSIA_4201C_Projet_marmiton
 
 ### Construire les images Docker :
 

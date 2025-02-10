@@ -1,31 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche de recettes Marmiton</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .search-box { margin-bottom: 20px; }
-        input[type="text"] { width: 300px; padding: 8px; }
-        button { padding: 8px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-        .result-item { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-image: url('https://www.kitchengarden.fr/wp-content/uploads/2024/10/fruit-salads-in-plate-1640774-scaled.jpg.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .search-box input, .search-box select {
+            width: 300px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .search-box button {
+            padding: 12px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .search-box button:hover {
+            background: #45a049;
+        }
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        .filters select {
+            width: 48%;
+        }
+        .result-item {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .result-item h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        .result-item p {
+            margin: 10px 0 0;
+            color: #777;
+        }
+        .result-item a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .result-item a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <h1>Rechercher une recette</h1>
-    
     <div class="search-box">
         <form method="POST">
             <input type="text" name="search" placeholder="Entrez le nom d'une recette...">
+            <div class="filters">
+                <select name="difficulte">
+                    <option value="">Difficulté</option>
+                    <option value="très facile">Très facile</option>
+                    <option value="facile">Facile</option>
+                    <option value="moyen">Moyen</option>
+                    <option value="difficile">Difficile</option>
+                </select>
+                <select name="prix">
+                    <option value="">Prix</option>
+                    <option value="bon marché">Bon marché</option>
+                    <option value="moyen">Moyen</option>
+                    <option value="élevé">Élevé</option>
+                </select>
+            </div>
             <button type="submit">Rechercher</button>
         </form>
     </div>
-
     {% if results %}
         <h2>Résultats de recherche :</h2>
         {% for result in results %}
             <div class="result-item">
                 <h3><a href="/recette/{{ result._id }}">{{ result._source.titre }}</a></h3>
-                <p>Note : {{ result._source.note }} | Difficulté : {{ result._source.difficulte }}</p>
+                <p>Note : {{ result._source.note }} | Difficulté : {{ result._source.difficulte }} | Prix : {{ result._source.prix }}</p>
             </div>
         {% endfor %}
     {% endif %}

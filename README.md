@@ -51,7 +51,7 @@ Le fichier `docker-compose.yml` permet de définir et de lancer les services né
 
 ### Scrapy Spider
 
-Le fichier `marmiton_spider.py` contient un spider Scrapy qui scrape des recettes du site Marmiton. Les informations récupérées comprennent :
+Le fichier `marmiton_scrap.py` contient un spider Scrapy qui scrape des recettes du site Marmiton. Les informations récupérées comprennent :
 
 - Titre de la recette
 - Difficulté
